@@ -1,4 +1,5 @@
 <h1>回收站</h1>
+<?=\yii\bootstrap\Html::a('品牌列表',['brand/index'],['class'=>'btn btn-success'])?>
 <?=\yii\bootstrap\Html::a('全部删除',['brand/deletes'],['class'=>'btn btn-danger','style'=>'float: right'])?>
 <table class="table table-hover">
     <tr>
@@ -12,7 +13,7 @@
         <tr>
             <td><?=$model->id;?></td>
             <td><?=$model->name;?></td>
-            <td><?=\yii\bootstrap\Html::img('@web/'.$model->logo,['style'=>'max-height:30px']);?></td>
+            <td><?=\yii\bootstrap\Html::img('@web'.$model->logo,['style'=>'max-height:30px']);?></td>
             <td><?=\backend\models\Brand::$status_info[$model->status];?></td>
             <td>
                 <?=\yii\bootstrap\Html::a('还原',['brand/recover','id'=>$model->id],['class'=>'btn btn-info'])?>

@@ -43,6 +43,14 @@ return [
             'rules' => [
             ],
         ],
+        'qiniu'=>[
+            'class'=>\backend\components\Qiniu::className(),
+            'accessKey' => 'pwDAEojIEBtDD53L42WU2IkXdzjz7zBnyuoAOlBj',
+            'secretKey' => 'MMMJDHYTeWXR-oV_opY1JPLqHIg9hW_WgPbk_JZn',
+            'domain' => 'http://onk89frq2.bkt.clouddn.com/',
+            'bucket' => 'yiishop',
+            'region'=>\backend\components\Qiniu::HOST_HUANAN,
+        ]
 
     ],
     'params' => $params,

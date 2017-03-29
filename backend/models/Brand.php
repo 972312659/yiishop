@@ -58,4 +58,14 @@ class Brand extends \yii\db\ActiveRecord
             'logo_file'=>'品牌LOGO'
         ];
     }
+    /**
+     * 显示LOGO图片方法
+     */
+    public function logo()
+    {
+        if(strpos($this->logo,"http://")!==false){
+            return $this->logo;
+        }
+        return '@web'.$this->logo;
+    }
 }

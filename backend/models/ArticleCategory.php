@@ -25,7 +25,13 @@ class ArticleCategory extends \yii\db\ActiveRecord
     {
         return 'article_category';
     }
-
+    /**
+     * 建立与Article之间的关系 一对多
+     */
+    public function getArticles()
+    {
+        return $this->hasMany(Article::className(),['article_category_id'=>'id']);
+    }
     /**
      * @inheritdoc
      */
@@ -36,6 +42,7 @@ class ArticleCategory extends \yii\db\ActiveRecord
             [['intro'], 'string'],
             [['status', 'sort', 'is_help'], 'integer'],
             [['name'], 'string', 'max' => 50],
+            [['name'],'unique'],
         ];
     }
 
@@ -52,5 +59,17 @@ class ArticleCategory extends \yii\db\ActiveRecord
             'sort' => '排序',
             'is_help' => '是否是帮助相关的分类',
         ];
+    }
+    /**
+     * 下拉列表
+     */
+    public static function select()
+    {
+        //准备数组
+        $arr=[];
+        foreach(self::find()->all() as $value){
+            $arr[$value->id]=$value->name;
+        }
+        return $arr;
     }
 }

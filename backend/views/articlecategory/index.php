@@ -1,4 +1,5 @@
 <h1>文章分类</h1>
+<?=\yii\bootstrap\Html::a('添加文章分类',['articlecategory/add'],['class'=>'btn btn-success'])?>
 <table class="table table-hover">
     <tr>
         <th>ID</th>
@@ -15,7 +16,7 @@
         <td><?=\backend\models\ArticleCategory::$status_info[$model->is_help]?></td>
         <td>
             <?=\yii\bootstrap\Html::a('编辑',['articlecategory/edit','id'=>$model->id],['class'=>'btn btn-info'])?>
-            <?=\yii\bootstrap\Html::a('编辑',['articlecategory/del','id'=>$model->id],['class'=>'btn btn-danger'])?>
+            <?=\yii\bootstrap\Html::a('删除',['articlecategory/del','id'=>$model->id],['class'=>'btn btn-danger'])?>
         </td>
     </tr>
     <?php endforeach;?>

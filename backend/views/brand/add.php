@@ -3,7 +3,7 @@ use yii\web\JsExpression;
 $form=\yii\bootstrap\ActiveForm::begin();
 echo $form->field($model,'name');
 echo $form->field($model,'logo')->hiddenInput();
-\yii\bootstrap\Html::img('',['height'=>'50px','id'=>'img']);
+echo \yii\bootstrap\Html::img($model->logo,['height'=>'50px','id'=>'img']);
 //Remove Events Auto Convert
 
 
@@ -30,8 +30,8 @@ function(file, data, response) {
     if (data.error) {
         console.log(data.msg);
     } else {
-//        console.log(data.fileUrl);
-        $('#').val(data.fileUrl);
+        console.log(data.fileUrl);
+        $('#brand-logo').val(data.fileUrl);
         $('#img').attr('src',data.fileUrl);
     }
 }
@@ -45,3 +45,10 @@ echo $form->field($model,'sort');
 echo $form->field($model,'status',['inline'=>true])->radioList(\backend\models\Brand::$status_info);
 echo \yii\bootstrap\Html::submitButton('提交',['class'=>'btn btn-info']);
 \yii\bootstrap\ActiveForm::end();
+?>
+
+
+
+
+
+

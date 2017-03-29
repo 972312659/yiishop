@@ -6,6 +6,8 @@ use backend\models\Brand;
 use yii\data\Pagination;
 use yii\web\UploadedFile;
 use xj\uploadify\UploadAction;
+use crazyfd\qiniu\Qiniu;
+
 class BrandController extends \yii\web\Controller
 {
     /**
@@ -68,18 +70,18 @@ class BrandController extends \yii\web\Controller
         if($request->isPost){//以POST方式提交
             //接收传值
             $model->load($request->post());
-            $model->logo_file=UploadedFile::getInstance($model,'logo_file');
+//            $model->logo_file=UploadedFile::getInstance($model,'logo_file');
             //验证接收数据
             if($model->validate()){
                 //验证是否上传图片
-                if($model->logo_file){
+               /* if($model->logo_file){
                     //图片地址
                     $fileName='upload/brand/'.uniqid().'.'.$model->logo_file->extension;
                     //保存图片
                     if($model->logo_file->saveAs($fileName,false)){
                         $model->logo=$fileName;
                     }
-                }
+                }*/
                 //保存数据，并提示
                 $model->save();
                 \Yii::$app->session->setFlash('success','修改成功');
@@ -193,12 +195,29 @@ class BrandController extends \yii\web\Controller
                 'afterValidate' => function (UploadAction $action) {},
                 'beforeSave' => function (UploadAction $action) {},
                 'afterSave' => function (UploadAction $action) {
-                    $action->output['fileUrl'] = $action->getWebUrl();
-                    $action->getFilename(); // "image/yyyymmddtimerand.jpg"
-                    $action->getWebUrl(); //  "baseUrl + filename, /upload/image/yyyymmddtimerand.jpg"
-                    $action->getSavePath(); // "/var/www/htdocs/upload/image/yyyymmddtimerand.jpg"
+
+//                    $action->getFilename(); // "image/yyyymmddtimerand.jpg"
+//                    $action->getWebUrl(); //  "baseUrl + filename, /upload/image/yyyymmddtimerand.jpg"
+//                    $action->getSavePath(); // "/var/www/htdocs/upload/image/yyyymmddtimerand.jpg"
+                    //使用七牛云来保存图片
+                    $qiniu=\Yii::$app->qiniu;//实例化七牛组件
+                    $qiniu->uploadFile($action->getSavePath(),$action->getFilename());
+                    $url = $qiniu->getLink($action->getFilename());
+                    //将图片的地址得到，用来保存到数据库
+                    $action->output['fileUrl'] = $url;
                 },
             ],
         ];
+    }
+    public function actionTest()
+    {
+
+        $qiniu = \Yii::$app->qiniu;
+        $f=\Yii::getAlias('@webroot').'/upload/brand/58d9f60eefac6.jpg';
+//        var_dump($f);exit;
+        $key='58d9f60eefac6.jpg';
+        $qiniu->uploadFile($f,$key);
+        $url = $qiniu->getLink($key);
+        return $url;
     }
 }
