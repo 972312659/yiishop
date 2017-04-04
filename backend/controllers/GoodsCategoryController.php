@@ -25,8 +25,9 @@ class GoodsCategoryController extends \yii\web\Controller
         if($model->load(\Yii::$app->request->post()) && $model->validate()){
             if($model->parent_id==0){
                 $model->makeRoot();
+            }else{
+                $model->prependTo(GoodsCategory::findOne(['id'=>$model->parent_id]));
             }
-            $model->prependTo(GoodsCategory::findOne(['id'=>$model->parent_id]));
             \Yii::$app->session->setFlash('success','添加成功');
             return $this->redirect(['goods-category/index']);
         }

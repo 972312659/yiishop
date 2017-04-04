@@ -17,14 +17,19 @@ return [
             'csrfParam' => '_csrf-backend',
         ],
         'user' => [
-            'identityClass' => 'common\models\User',
+            'identityClass' => \backend\models\Admin::className(),
             'enableAutoLogin' => true,
+            'loginUrl'=>['login/login'],
             'identityCookie' => ['name' => '_identity-backend', 'httpOnly' => true],
         ],
         'session' => [
             // this is the name of the session cookie used for login on the backend
             'name' => 'advanced-backend',
         ],
+/*        'cookie'=>[
+            'class'=>\yii\web\Cookie::className(),
+            'name'=>'my',
+        ],*/
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
             'targets' => [

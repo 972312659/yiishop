@@ -29,13 +29,13 @@ $js=<<<EOD
     $(".expand").click(function(){
         $(this).toggleClass('glyphicon glyphicon-menu-down');
         $(this).toggleClass('glyphicon glyphicon-menu-up');
-        var current_lft=$(this).closest("tr").attr("data-lft");//当前左值
-        var current_rgt=$(this).closest("tr").attr("data-rgt");//当前右值
-        var current_tree=$(this).closest("tr").attr("data-tree");//当前数
+        var current_lft=parseInt($(this).closest("tr").attr("data-lft"));//当前左值
+        var current_rgt=parseInt($(this).closest("tr").attr("data-rgt"));//当前右值
+        var current_tree=parseInt($(this).closest("tr").attr("data-tree"));//当前数
         $("#tdy tr").each(function(){
-               var lft=$(this).attr("data-lft");
-               var rgt=$(this).attr("data-rgt");
-               var tree=$(this).attr("data-tree");
+               var lft=parseInt($(this).attr("data-lft"));
+               var rgt=parseInt($(this).attr("data-rgt"));
+               var tree=parseInt($(this).attr("data-tree"));
                if(lft>current_lft && rgt<current_rgt && tree==current_tree){
                     $(this).slideToggle();
                }

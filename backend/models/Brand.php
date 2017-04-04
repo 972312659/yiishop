@@ -68,4 +68,15 @@ class Brand extends \yii\db\ActiveRecord
         }
         return '@web'.$this->logo;
     }
+    /**
+     * 显示品牌的下拉列表
+     */
+    public static function select()
+    {
+        $arr=[];
+        foreach(self::find()->all() as $model){
+            $arr[$model->id]=$model->name;
+        }
+        return $arr;
+    }
 }
