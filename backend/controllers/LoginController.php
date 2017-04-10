@@ -62,7 +62,7 @@ class LoginController extends Controller
     /**
      * 权限
      */
-    /*public function behaviors()
+/*    public function behaviors()
     {
         return [
             'login'=>[

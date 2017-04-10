@@ -2,9 +2,11 @@
 
 namespace backend\controllers;
 
+use backend\filters\AccessFilter;
 use backend\models\Article;
 use backend\models\ArticleDetail;
 use yii\data\Pagination;
+use yii\filters\AccessControl;
 
 class ArticleController extends \yii\web\Controller
 {
@@ -90,5 +92,17 @@ class ArticleController extends \yii\web\Controller
         //提示信息，跳转到列表页面
         \Yii::$app->session->setFlash('success','添加成功');
         return $this->redirect(['article/index']);
+    }
+    /**
+     * ACF简单过存取滤器
+     */
+    public function behaviors()
+    {
+        return [
+            'ACF'=>[
+                'class'=>AccessFilter::className(),
+                'only'=>['index','add','edit','del'],
+            ]
+        ];
     }
 }

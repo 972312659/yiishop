@@ -30,6 +30,11 @@ class SiteController extends Controller
                         'allow' => true,
                         'roles' => ['@'],
                     ],
+                    [
+                        'actions' => [ 'index'],
+                        'allow' => false,
+                        'roles' => ['admin'],
+                    ],
                 ],
             ],
             'verbs' => [
@@ -101,4 +106,5 @@ class SiteController extends Controller
 
         return $this->goHome();
     }
+
 }

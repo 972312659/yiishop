@@ -4,6 +4,7 @@ namespace backend\models;
 
 use Yii;
 use yii\behaviors\TimestampBehavior;
+use yii\helpers\ArrayHelper;
 use yii\web\IdentityInterface;
 
 /**
@@ -25,6 +26,8 @@ class Admin extends \yii\db\ActiveRecord implements IdentityInterface
 {
     //验证使用的密码
     public $password_hash_repeat;
+    //角色
+    public $roles;
     /**
      * @inheritdoc
      */
@@ -61,7 +64,7 @@ class Admin extends \yii\db\ActiveRecord implements IdentityInterface
             [['username','email'],'unique'],
             [['email'], 'email'],
             [['password_hash'],'compare'],//验证密码
-            [['created_at', 'updated_at', 'last_login_time','auth_key','last_login_ip','status','password_reset_token'],'safe'],
+            [['created_at', 'updated_at', 'last_login_time','auth_key','last_login_ip','status','password_reset_token','roles'],'safe'],
         ];
     }
     /**
@@ -82,6 +85,7 @@ class Admin extends \yii\db\ActiveRecord implements IdentityInterface
             'updated_at' => '修改时间',
             'last_login_time' => '最后登录时间',
             'last_login_ip' => '最后登陆IP',
+            'roles'=>'角色'
         ];
     }
     /**
@@ -162,4 +166,38 @@ class Admin extends \yii\db\ActiveRecord implements IdentityInterface
     {
         return $this->getAuthKey()==$authKey;
     }
+    /**
+     * 得到角色选择数组
+     */
+    public static function rolesOption()
+    {
+        $roles=Yii::$app->authManager->getRoles();
+        return ArrayHelper::map($roles,'name','description');
+    }
+    /**
+     * 根据权限显示菜单列表方法
+     */
+    public function getMenuItems()
+    {
+        $menuItems=[];
+        foreach(Menu::find()->where(['parent_id'=>0])->all() as $parent){
+            $items=[];
+            $n=0;//如果大项目下所有都没有权限，则所有都不显示
+            foreach($parent->children as $son){
+                //有权限才显示
+                if(Yii::$app->user->can($son->url)){
+                    $items[]=['label'=>$son->name,'url'=>[$son->url]];
+                    $n++;
+                }
+            }
+            if($n!=0){
+                $menuItems[]=[
+                    'label' => $parent->name,
+                    'items'=>$items,
+                ];
+            }
+        }
+        return $menuItems;
+    }
+
 }

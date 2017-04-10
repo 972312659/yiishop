@@ -2,9 +2,11 @@
 
 namespace backend\controllers;
 
+use backend\filters\AccessFilter;
 use backend\models\Goods;
 use backend\models\GoodsGallery;
 use xj\uploadify\UploadAction;
+use yii\filters\AccessControl;
 use yii\helpers\ArrayHelper;
 
 class GoodsGalleryController extends \yii\web\Controller
@@ -123,6 +125,18 @@ class GoodsGalleryController extends \yii\web\Controller
                     $action->output['fileUrl'] = $url;*/
                 },
             ],
+        ];
+    }
+    /**
+     * ACF简单过存取滤器
+     */
+    public function behaviors()
+    {
+        return [
+            'ACF'=>[
+                'class'=>AccessFilter::className(),
+                'only'=>['index','add','edit','del'],
+            ]
         ];
     }
 }

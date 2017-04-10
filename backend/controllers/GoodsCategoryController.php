@@ -2,8 +2,10 @@
 
 namespace backend\controllers;
 
+use backend\filters\AccessFilter;
 use backend\models\GoodsCategory;
 use yii\db\Exception;
+use yii\filters\AccessControl;
 
 class GoodsCategoryController extends \yii\web\Controller
 {
@@ -97,5 +99,18 @@ class GoodsCategoryController extends \yii\web\Controller
         $russia2 = new GoodsCategory(['name' => '小家电','parent_id'=>1]);
         $russia2->prependTo($countries);
 //        return $this->renderPartial('test');
+    }
+
+    /**
+     * ACF简单过存取滤器
+     */
+    public function behaviors()
+    {
+        return [
+            'ACF'=>[
+                'class'=>AccessFilter::className(),
+                'only'=>['index','add','edit','del'],
+            ]
+        ];
     }
 }

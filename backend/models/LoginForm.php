@@ -19,6 +19,7 @@ class LoginForm extends Model
 //    public $captchaCode;//验证码
     //自动登录
     public $rememberMe=true;
+    public $my;
 
     /**
      * 验证规则
@@ -28,9 +29,21 @@ class LoginForm extends Model
     {
         return [
             [['username','password'],'required'],
-            [['rememberMe'],'boolean']
+            [['rememberMe'],'boolean'],
+            [['my'],'self'],
 //            [['captchaCode'],'captcha']
         ];
+    }
+    /**
+     * 自定义验证规则  测试
+     * 当my==1时，报错
+     */
+    public function self($attribute)
+    {
+        if($this->my==1){
+            return $this->addError($attribute,'千万不能为空');
+        }
+
     }
     /**
      * 字段名

@@ -55,7 +55,8 @@ return [
             'domain' => 'http://onk89frq2.bkt.clouddn.com/',
             'bucket' => 'yiishop',
             'region'=>\backend\components\Qiniu::HOST_HUANAN,
-        ]
+        ],
+
 
     ],
     'params' => $params,

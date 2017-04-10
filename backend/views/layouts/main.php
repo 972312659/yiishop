@@ -35,15 +35,29 @@ AppAsset::register($this);
         ],
     ]);
     $menuItems = [
-        ['label' => 'Home', 'url' => ['/site/index']],
-        ['label' => '商品', 'url' => ['/goods/list']],
+        ['label' => '首页', 'url' => ['/site/index']],
+        [
+            'label' => '菜单管理',
+            'items'=>[
+                ['label'=>'菜单列表','url'=>['menu/index']],
+                ['label'=>'添加菜单','url'=>['menu/add']],
+            ],
+        ]
+/*        ['label' => '商品', 'url' => ['/goods/list']],
         ['label' => '品牌', 'url' => ['/goods-category/index']],
-        ['label' => '品牌分类', 'url' => ['/brand/index']],
+        [
+            'label' => '品牌分类',
+            'items'=>[
+                ['label'=>'品牌列表','url'=>['brand/index']],
+                ['label'=>'添加品牌','url'=>['brand/add']],
+            ],
+        ],*/
     ];
     if (Yii::$app->user->isGuest) {
         $menuItems[] = ['label' => '注册', 'url' => ['/admin/add']];
         $menuItems[] = ['label' => 'Login', 'url' => ['/login/login']];
     } else {
+        $menuItems=\yii\helpers\ArrayHelper::merge($menuItems,Yii::$app->user->identity->getMenuItems());
         $menuItems[] = '<li>'
             . Html::beginForm(['/login/logout'], 'post')
             . Html::submitButton(

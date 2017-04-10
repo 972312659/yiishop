@@ -2,8 +2,10 @@
 
 namespace backend\controllers;
 
+use backend\filters\AccessFilter;
 use backend\models\Brand;
 use yii\data\Pagination;
+use yii\filters\AccessControl;
 use yii\web\UploadedFile;
 use xj\uploadify\UploadAction;
 use crazyfd\qiniu\Qiniu;
@@ -219,5 +221,18 @@ class BrandController extends \yii\web\Controller
         $qiniu->uploadFile($f,$key);
         $url = $qiniu->getLink($key);
         return $url;
+    }
+
+    /**
+     * ACF简单过存取滤器
+     */
+    public function behaviors()
+    {
+        return [
+            'ACF'=>[
+                'class'=>AccessFilter::className(),
+                'only'=>['index','add','edit','del','recycle','deletes','delete','recover'],
+            ]
+        ];
     }
 }

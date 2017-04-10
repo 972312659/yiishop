@@ -2,6 +2,7 @@
 
 namespace backend\controllers;
 
+use backend\filters\AccessFilter;
 use backend\models\Goods;
 use backend\models\GoodsCategory;
 use backend\models\GoodsDayCount;
@@ -10,6 +11,7 @@ use backend\models\GoodsIntro;
 use backend\models\GoodsSearchForm;
 use xj\uploadify\UploadAction;
 use yii\data\Pagination;
+use yii\filters\AccessControl;
 
 class GoodsController extends \yii\web\Controller
 {
@@ -242,4 +244,16 @@ class GoodsController extends \yii\web\Controller
         ];
     }
 
+    /**
+     * ACF简单过存取滤器
+     */
+    public function behaviors()
+    {
+        return [
+            'ACF'=>[
+                'class'=>AccessFilter::className(),
+                'only'=>['index','add','edit','del','list','delete','recycle'],
+            ]
+        ];
+    }
 }

@@ -2,7 +2,9 @@
 
 namespace backend\controllers;
 
+use backend\filters\AccessFilter;
 use backend\models\ArticleCategory;
+use yii\filters\AccessControl;
 
 class ArticlecategoryController extends \yii\web\Controller
 {
@@ -74,5 +76,17 @@ class ArticlecategoryController extends \yii\web\Controller
         //提示跳转
         \Yii::$app->session->setFlash('success','删除成功');
         return $this->redirect(['articlecategory/index']);
+    }
+    /**
+     * ACF简单过存取滤器
+     */
+    public function behaviors()
+    {
+        return [
+            'ACF'=>[
+                'class'=>AccessFilter::className(),
+                'only'=>['index','add','edit','del'],
+            ]
+        ];
     }
 }
